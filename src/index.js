@@ -36,16 +36,34 @@ Header.propTypes = {
 class Counter extends Component {
     constructor() {
         super();
+        
         this.state = {
             score: 0
         }
+
+        // Without this bind, the incrementScore won't work and get Uncaught TypeError: Cannot read property 'setState' of undefined
+        // checkout this link: https://stackoverflow.com/questions/32317154/uncaught-typeerror-cannot-read-property-setstate-of-undefined
+        this.incrementScore = this.incrementScore.bind(this);
     }
+
+    incrementScore() {
+        this.setState({
+            score: (this.state.score + 1)
+        });
+    }
+    // Because of this arrow function, no need to bind this in the constructor.
+    decrementScore = () => {
+        this.setState({
+            score: (this.state.score - 1)
+        });
+    }
+
     render() {
         return (
             <div className="counter">
-                <button className="counter-action decrement"> - </button>
+                <button className="counter-action decrement" onClick={this.decrementScore}> - </button>
                 <div className="counter-score">{this.state.score}</div>
-                <button className="counter-action increment"> + </button>
+                <button className="counter-action increment" onClick={this.incrementScore}> + </button>
             </div>           
         );
     }

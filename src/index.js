@@ -3,6 +3,24 @@ import { render } from 'react-dom';
 import { PropTypes } from 'prop-types';
 import './stylesheets/app.css';
 
+const PLAYERS = [
+    {
+        name: "John Doe",
+        score: 31,
+        id: 1
+    },
+    {
+        name: "James",
+        score: 34,
+        id: 2
+    },
+    {
+        name: "Jessie",
+        score: 40,
+        id: 3
+    }
+];
+
 function Header(props) {
     return (
         <div className="header">
@@ -50,8 +68,9 @@ function Application (props) {
         <div className="scoreboard">
             <Header title={props.title}/>
             <div className="players">
-                <Player name="John Doe" score={35}/>
-                <Player name="John Smith" score={39}/>
+                {props.players.map( p => {
+                    return <Player name={p.name} score={p.score} key={p.id} />
+                })}
             </div>
 
         </div>
@@ -59,7 +78,12 @@ function Application (props) {
 }
 
 Application.propTypes = {
-    title: PropTypes.string
+    title: PropTypes.string,
+    players: PropTypes.arrayOf(PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        score: PropTypes.number.isRequired,
+        id: PropTypes.number.isRequired
+    })).isRequired
 };
 
 Application.defaultProps = {
@@ -67,6 +91,6 @@ Application.defaultProps = {
 }
 
 render(
-    <Application />,
+    <Application players={PLAYERS}/>,
     document.getElementById('react-container')
 );

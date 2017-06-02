@@ -34,15 +34,15 @@ Header.propTypes = {
 }
 
 class Counter extends Component {
-    constructor() {
+    constructor(props) {
         super();
         
         this.state = {
-            score: 0
+            score: props.initialScore       // Don't forget to pass props parameter to constructor. Otherwise TypeError
         }
 
         // Without this bind, the incrementScore won't work and get Uncaught TypeError: Cannot read property 'setState' of undefined
-        // checkout this link: https://stackoverflow.com/questions/32317154/uncaught-typeerror-cannot-read-property-setstate-of-undefined
+        // checkout this link: https://hahvahd15mengqiao.wordpress.com/2017/06/02/react-binding-issue/
         this.incrementScore = this.incrementScore.bind(this);
     }
 
@@ -69,14 +69,16 @@ class Counter extends Component {
     }
 }
 
-Counter.propTypes = {}
+Counter.propTypes = {
+    initialScore: PropTypes.number.isRequired
+};
 
 function Player(props) {
     return (
         <div className="player">
             <div className="player-name">{props.name}</div>
             <div className="player-score">
-                <Counter />
+                <Counter initialScore={props.score}/>
             </div>
         </div>        
     );

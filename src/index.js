@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { render } from 'react-dom';
 import { PropTypes } from 'prop-types';
 import './stylesheets/app.css';
@@ -33,14 +33,16 @@ Header.propTypes = {
     title: PropTypes.string.isRequired
 }
 
-function Counter(props) {
-    return (
-        <div className="counter">
-            <button className="counter-action decrement"> - </button>
-            <div className="counter-score">{props.score}</div>
-            <button className="counter-action increment"> + </button>
-        </div>
-    );
+class Counter extends Component {
+    render() {
+        return (
+            <div className="counter">
+                <button className="counter-action decrement"> - </button>
+                <div className="counter-score">{this.props.score}</div>
+                <button className="counter-action increment"> + </button>
+            </div>           
+        );
+    }
 }
 
 Counter.propTypes = {

@@ -46,7 +46,6 @@ class Stopwatch extends Component {
                 elapsedTime: this.state.elapsedTime + (now - this.state.previousTime)
             })
         }
-        console.log('onTick');
     }
     onStart = () => {
         this.setState({

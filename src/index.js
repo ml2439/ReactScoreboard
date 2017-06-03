@@ -78,15 +78,16 @@ Counter.propTypes = {
 function Counter(props) {
     return (
         <div className="counter">
-            <button className="counter-action decrement" > - </button>
+            <button className="counter-action decrement" onClick={function() {props.onChange(-1)}}> - </button>
             <div className="counter-score">{props.score}</div>
-            <button className="counter-action increment" > + </button>
+            <button className="counter-action increment" onClick={function() {props.onChange(1)}}> + </button>
         </div>           
     );
 }
 
 Counter.propTypes = {
-    score: PropTypes.number.isRequired
+    score: PropTypes.number.isRequired,
+    onChange: PropTypes.func.isRequired
 }
 
 function Player(props) {
@@ -94,7 +95,7 @@ function Player(props) {
         <div className="player">
             <div className="player-name">{props.name}</div>
             <div className="player-score">
-                <Counter score={props.score}/>
+                <Counter score={props.score} onChange={props.onScoreChange}/>
             </div>
         </div>        
     );
@@ -102,7 +103,8 @@ function Player(props) {
 
 Player.propTypes = {
     name: PropTypes.string.isRequired,
-    score: PropTypes.number.isRequired
+    score: PropTypes.number.isRequired,
+    onScoreChange: PropTypes.func.isRequired
 }
 
 class Application extends Component {
@@ -113,13 +115,24 @@ class Application extends Component {
             players: props.initialPlayers
         };
     }
+
+    onScoreChange = (index, delta) => {
+        console.log('onScoreChange', index, delta);
+        this.state.players[index].score += delta;
+        this.setState(this.state);      // need to call setState to rerender!
+    }
+
     render() {
         return (
             <div className="scoreboard">
                 <Header title={this.props.title}/>
                 <div className="players">
-                    {this.state.players.map( p => {
-                        return <Player name={p.name} score={p.score} key={p.id} />
+                    {this.state.players.map( (p, index) => {
+                        return <Player 
+                            onScoreChange={(delta) => {this.onScoreChange(index, delta)}}
+                            name={p.name} 
+                            score={p.score} 
+                            key={p.id} />
                     })}
                 </div>
             </div>

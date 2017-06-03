@@ -24,13 +24,34 @@ const PLAYERS = [
 var nextId = 4;
 
 class Stopwatch extends Component {
+    constructor() {
+        super();
+        this.state = {
+            running: false
+        }
+    }
+    onStart = () => {
+        this.setState({
+            running: true
+        })
+    }
+    onStop = () => {
+        this.setState({
+            running: false
+        })
+    }
+    onReset = () => {
+
+    }
     render() {
         return (
             <div className="stopwatch">
                 <h2>Stopwatch</h2>
                 <div className="stopwatch-time">0</div>
-                <button>Start</button>
-                <button>Reset</button>
+                { this.state.running ? 
+                  <button onClick={this.onStop}>Stop</button> : 
+                  <button onClick={this.onStart}>Start</button> }
+                <button onClick={this.onReset}>Reset</button>
             </div>
         );
     }
